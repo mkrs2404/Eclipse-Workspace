@@ -36,10 +36,11 @@ public class MovieCatalogResource {
 //				new Rating("5678",3)
 //				); 
 		
-		UserRating userRatings = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId, UserRating.class);
+		UserRating userRatings = restTemplate.getForObject("http://ratings-data-service/ratingsdata/users/" + userId, UserRating.class);
 		List<Rating> ratings = userRatings.getRatings();
 		return ratings.stream().map(rating -> {
-			Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
+			//For each movieId, call movie info service and get details
+			Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
 //			Movie movie = builder.build()
 //								   .get()
 //								   .uri("http://localhost:8082/movies/" + rating.getMovieId())
